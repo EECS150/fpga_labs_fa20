@@ -14,3 +14,4 @@ build
 *.vpd
 *.tb
 output.txt
+.DS_Store
