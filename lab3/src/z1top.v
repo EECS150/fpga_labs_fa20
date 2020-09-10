@@ -8,7 +8,7 @@ module z1top (
     output aud_pwm,
     output aud_sd
 );
-    // TODO(you): Your code here. Remove the following lines once you add your implementation.
+    // TODO(you): Instantiate your tone generator here. Remove the following lines once you add your implementation.
     assign LEDS[5:0] = 6'b111111;
     assign aud_sd = 0;
 endmodule
