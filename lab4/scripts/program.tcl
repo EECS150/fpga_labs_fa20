@@ -1,7 +1,7 @@
 source ../target.tcl
 open_hw
 
-connect_hw_server -url localhost:3121
+connect_hw_server -url localhost:[lindex $argv]
 current_hw_target [get_hw_targets */xilinx_tcf/Digilent/*]
 set_property PARAM.FREQUENCY 15000000 [get_hw_targets */xilinx_tcf/Digilent/*]
 open_hw_target

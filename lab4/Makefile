@@ -12,6 +12,8 @@ SIM_RTL                 := $(subst /cygdrive/c/,C:/, $(shell find $(ABS_TOP)/sim
 IVERILOG                := iverilog
 IVERILOG_OPTS           := -D IVERILOG=1
 VVP                     := vvp
+HW_SERVER_PORT			?= 3121
+PROGRAM_OPTS			?= -tclargs $(HW_SERVER_PORT)
 
 sim/%.tb: sim/%.v $(RTL)
 	cd sim && $(VCS) $(VCS_OPTS) -o $*.tb $(RTL) $*.v -top $*
@@ -55,10 +57,10 @@ impl: build/impl/$(TOP).bit
 all: build/impl/$(TOP).bit
 
 program: build/impl/$(TOP).bit $(ABS_TOP)/scripts/program.tcl
-	cd build/impl && $(VIVADO) $(VIVADO_OPTS) -source $(ABS_TOP)/scripts/program.tcl
+	cd build/impl && $(VIVADO) $(VIVADO_OPTS) -source $(ABS_TOP)/scripts/program.tcl $(PROGRAM_OPTS) 
 
 program-force:
-	cd build/impl && $(VIVADO) $(VIVADO_OPTS) -source $(ABS_TOP)/scripts/program.tcl
+	cd build/impl && $(VIVADO) $(VIVADO_OPTS) -source $(ABS_TOP)/scripts/program.tcl $(PROGRAM_OPTS) 
 
 vivado: build
 	cd build && nohup $(VIVADO) </dev/null >/dev/null 2>&1 &
