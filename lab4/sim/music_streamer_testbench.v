@@ -38,7 +38,7 @@ module music_streamer_testbench();
         .clk(clock),
         .rst(reset),
         .tempo_up(tempo_up),
-        .tempo_down(temp_down),
+        .tempo_down(tempo_down),
         .play_pause(play_pause),
         .reverse(reverse),
         .leds(leds),
