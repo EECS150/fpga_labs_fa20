@@ -7,11 +7,13 @@ RTL                     += $(subst /cygdrive/c/,C:/, $(shell find $(ABS_TOP)/src
 CONSTRAINTS             += $(subst /cygdrive/c/,C:/, $(shell find $(ABS_TOP)/src -type f -name "*.xdc"))
 TOP                     ?= z1top
 VCS                     := vcs -full64
-VCS_OPTS                := -notice -PP -line +lint=all,noVCDE +v2k -timescale=1ns/10ps -debug -sverilog
+VCS_OPTS                := -notice -PP -line +lint=all,noVCDE +v2k -timescale=1ns/10ps -debug
 SIM_RTL                 := $(subst /cygdrive/c/,C:/, $(shell find $(ABS_TOP)/sim -type f -name "*.v"))
 IVERILOG                := iverilog
 IVERILOG_OPTS           := -D IVERILOG=1
 VVP                     := vvp
+HW_SERVER_PORT			?= 3121
+PROGRAM_OPTS			?= -tclargs $(HW_SERVER_PORT)
 
 sim/%.tb: sim/%.v $(RTL)
 	cd sim && $(VCS) $(VCS_OPTS) -o $*.tb $(RTL) $*.v -top $*
@@ -56,10 +58,10 @@ impl: build/impl/$(TOP).bit
 all: build/impl/$(TOP).bit
 
 program: build/impl/$(TOP).bit $(ABS_TOP)/scripts/program.tcl
-	cd build/impl && $(VIVADO) $(VIVADO_OPTS) -source $(ABS_TOP)/scripts/program.tcl
+	cd build/impl && $(VIVADO) $(VIVADO_OPTS) -source $(ABS_TOP)/scripts/program.tcl $(PROGRAM_OPTS) 
 
 program-force:
-	cd build/impl && $(VIVADO) $(VIVADO_OPTS) -source $(ABS_TOP)/scripts/program.tcl
+	cd build/impl && $(VIVADO) $(VIVADO_OPTS) -source $(ABS_TOP)/scripts/program.tcl $(PROGRAM_OPTS)
 
 vivado: build
 	cd build && nohup $(VIVADO) </dev/null >/dev/null 2>&1 &
@@ -80,4 +82,4 @@ clean:
 	sim/*.tbi sim/*.fst sim/*.jou sim/*.log sim/*.out
 
 .PHONY: setup synth impl program program-force vivado all clean %.tb
-.PRECIOUS: sim/%.tb sim/%.tbi sim/%.fst sim/%.vpd
+.PRECIOUS: sim/%.tb sim/%.tbi
