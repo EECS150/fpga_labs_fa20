@@ -99,7 +99,7 @@ module fifo_testbench();
         `endif
         // Generate the random data to write to the FIFO
         for (i = 0; i < `FIFO_DEPTH; i = i + 1) begin
-            test_values[i] <= $urandom;
+            test_values[i] <= $random;
         end
 
         rst = 1'b1;
